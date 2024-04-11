@@ -6,7 +6,8 @@ import re
 
 
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
-
-
 def filter_datum(fields, redaction, message, separator):
+    """ function called filter_datum that returns the
+        log message
+    """
     return re.sub(fr'\b(?:{"|".join(fields)})\b', redaction, message)
