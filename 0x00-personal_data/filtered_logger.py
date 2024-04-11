@@ -3,7 +3,7 @@
 """
 import re
 from typing import List
-importing logging
+import logging
 
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
