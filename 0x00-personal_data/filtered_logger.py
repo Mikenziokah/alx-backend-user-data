@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
-""" function called filter_datum that returns
-    the log message obfuscated
+""" function called filter_datum that returns the log message
+    obfuscated
 """
+
 import re
+from typing import List
 
-
-PII_FIELDS = ("name", "email", "phone", "ssn", "password")
-def filter_datum(fields, redaction, message, separator):
-    """ function called filter_datum that returns the
-        log message
-    """
-    return re.sub(fr'\b(?:{"|".join(fields)})\b', redaction, message)
+def filter_datum(fields: List[str], redaction: str, message: str, separator: str) -> str:
+    """ Replacing """
+    return re.sub(
+        rf"({'|'.join(map(re.escape, fields))})=[^{separator}]+{re.escape(separator)}",
+        rf"\1={redaction}{separator}",
+        message
+    )
