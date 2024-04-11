@@ -4,12 +4,7 @@
 """
 import re
 
-def filter_datum(fields: List[str], redaction: str, message: str,
-                 separator: str) -> str:
-    """ uses regular expression with re.sub to replace occurences of
-        certain field values with the specified redaction
-    """
-    for f in fields:
-        message = re.sub(rf"{f}=(.*?)\{separator}",
-                         f'{f}={redaction}{separator}', message)
-    return message
+PII_FIELDS = ("name", "email", "phone", "ssn", "password")
+
+def filter_datum(fields, redaction, message, separator):
+    return re.sub(fr'\b(?:{"|".join(fields)})\b', redaction, message)
