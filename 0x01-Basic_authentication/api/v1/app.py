@@ -45,6 +45,21 @@ def forbidden() -> str:
     abort(403)
 
 
+@app.before_request
+def before():
+    """ Before request.
+    """
+    if auth:
+        paths = ['/api/v1/status/',
+                 '/api/v1/unauthorized/', '/api/v1/forbidden/']
+        if not auth.require_auth(request.path, paths):
+            return
+        if not auth.authorization_header(request):
+            abort(401)
+        if not auth.current_user(request):
+            abort(403)
+
+
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
     port = getenv("API_PORT", "5000")
