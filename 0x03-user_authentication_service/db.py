@@ -12,6 +12,9 @@ from typing import TypeVar
 from user import Base
 
 
+VALID_FIELDS = ['id', 'email', 'hashed_password', 'session_id',
+                'reset_token']
+
 class DB:
     """DB class
     """
