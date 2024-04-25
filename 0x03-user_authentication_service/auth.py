@@ -45,7 +45,7 @@ class Auth:
         return bcrypt.checkpw(password.encode('utf-8'), user.hashed_password)
 
     def _generate_uuid() -> str:
-    """
-    _generate_uuid.
-    """
+        """
+        generate_uuid.
+        """
     return str(uuid4())
