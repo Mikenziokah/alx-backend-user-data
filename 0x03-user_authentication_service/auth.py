@@ -9,6 +9,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from uuid import uuid4
 from typing import TypeVar
 
+
 def _hash_password(password: str) -> str:
     """
     _hash_password.
@@ -59,5 +60,17 @@ class Auth:
             sess_id = self._generate_uuid()
             self._db.update_user(user.id, session_id=sess_id)
             return sess_id
+        except NoResultFound:
+            return
+
+    def get_user_from_session_id(self, session_id: str) -> str:
+        """
+        get_user_from_session_id.
+        """
+        if session_id is None:
+            return
+        try:
+            user = self._db.find_user_by(session_id=session_id)
+            return user.email
         except NoResultFound:
             return
