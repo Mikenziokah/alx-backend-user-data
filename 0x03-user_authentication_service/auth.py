@@ -17,6 +17,11 @@ def _hash_password(password: str) -> str:
     return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
 
+def _generate_uuid() -> str:
+    """Generate a new UUID."""
+    return str(uuid.uuid4())
+
+
 class Auth:
     """
     Auth class to interact with the authentication database.
@@ -45,12 +50,6 @@ class Auth:
             return False
         return bcrypt.checkpw(password.encode('utf-8'), user.hashed_password)
 
-    def _generate_uuid() -> str:
-        """
-        generate_uuid.
-        """
-        return str(uuid4())
-
     def create_session(self, email: str) -> str:
         """
         create_session.
@@ -75,7 +74,7 @@ class Auth:
         except NoResultFound:
             return
 
-     def destroy_session(self, user_id: int) -> None:
+    def destroy_session(self, user_id: int) -> None:
         """
         destroy_session.
         """
