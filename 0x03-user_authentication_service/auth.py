@@ -28,7 +28,7 @@ class Auth:
     def _generate_uuid(self) -> str:
         """ generating a new uuid
         """
-        return str(uuid4())
+        return str(uuid.uuid4())
 
     def register_user(self, email: str, password: str) -> User:
         """
