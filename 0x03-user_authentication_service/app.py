@@ -2,7 +2,8 @@
 """ my basic flask app
 """
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, abort, redirect
+
 from auth import Auth
 
 AUTH = Auth()
@@ -29,6 +30,24 @@ def user() -> str:
         return jsonify({"email": f"{email}", "message": "user created"}), 200
     except Exception:
         return jsonify({"message": "email already registered"}), 400
+
+
+@app.route('/sessions', methods=['POST'], strict_slashes=False)
+def login() -> str:
+    """ POST /sessions
+      Return:
+        - message
+    """
+    email = request.form.get('email')
+    password = request.form.get('password')
+    valid_login = AUTH.valid_login(email, password)
+    if valid_login:
+        session_id = AUTH.create_session(email)
+        response = jsonify({"email": f"{email}", "message": "logged in"})
+        response.set_cookie('session_id', session_id)
+        return response
+    else:
+        abort(401)
 
 
 if __name__ == "__main__":
