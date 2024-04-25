@@ -7,7 +7,7 @@ from db import DB
 from user import User
 from sqlalchemy.orm.exc import NoResultFound
 from uuid import uuid4
-
+from typing import TypeVar
 
 def _hash_password(password: str) -> str:
     """
@@ -32,7 +32,7 @@ class Auth:
             self._db.find_user_by(email=email)
             raise ValueError(f"User {email} already exists")
         except NoResultFound:
-            return self._db.add_user(email, _hash_password(password)i)
+            return self._db.add_user(email, _hash_password(password))
 
     def valid_login(self, email: str, password: str) -> bool:
         """
@@ -48,4 +48,16 @@ class Auth:
         """
         generate_uuid.
         """
-    return str(uuid4())
+        return str(uuid4())
+
+    def create_session(self, email: str) -> str:
+        """
+        create_session.
+        """
+        try:
+            user = self._db.find_user_by(email=email)
+            sess_id = self._generate_uuid()
+            self._db.update_user(user.id, session_id=sess_id)
+            return sess_id
+        except NoResultFound:
+            return
