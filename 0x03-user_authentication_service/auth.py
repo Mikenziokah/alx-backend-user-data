@@ -25,10 +25,10 @@ class Auth:
     def __init__(self):
         self._db = DB()
 
-    def _generate_uuid(self) -> str:
+    def _generate_uuid() -> str:
         """ generating a new uuid
         """
-        return str(uuid.uuid4())
+        return str(uuid4())
 
     def register_user(self, email: str, password: str) -> User:
         """
